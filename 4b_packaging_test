@@ -1,0 +1,4 @@
+$ cd /home/project/final_project
+$ python3 -c "from EmotionDetection.emotion_detection import emotion_detector; print(emotion_detector('I am very angry'))"
+{'anger': 0.948, 'disgust': 0.001, 'fear': 0.012, 'joy': 0.002, 'sadness': 0.037, 'dominant_emotion': 'anger'}
+$
