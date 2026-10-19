@@ -8,15 +8,33 @@ HEADERS = {
 }
 
 
-def emotion_detector(text_to_analyze: str) -> str:
-    payload = {'raw_document': {'text': text_to_analyze}}
+def emotion_detector(text_to_analyze):
+    payload = {
+        'raw_document': {
+            'text': text_to_analyze
+        }
+    }
 
-    response = requests.post(url=URL, headers=HEADERS, json=payload)
+    response = requests.post(
+        url=URL,
+        headers=HEADERS,
+        json=payload
+    )
+
+    # Error handling for invalid/blank input
+    if response.status_code == 400:
+        return {
+            'anger': None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None
+        }
 
     json_response = json.loads(response.text)
 
-    emotions = json_response.get('emotionPredictions')[0] or {}
-
+    emotions = json_response.get('emotionPredictions')[0]
     emotions_rating = emotions.get('emotion')
 
     dominant_emotion = ''
@@ -27,6 +45,8 @@ def emotion_detector(text_to_analyze: str) -> str:
             highest_score = emotion_value
             dominant_emotion = emotion_key
 
-    emotions_rating.update({'dominant_emotion': dominant_emotion})
+    emotions_rating.update({
+        'dominant_emotion': dominant_emotion
+    })
 
     return emotions_rating
