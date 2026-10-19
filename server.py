@@ -13,7 +13,6 @@ def render_index_page():
 def emotion_detector_route():
     text_to_analyze = request.args.get("textToAnalyze")
 
-    # Handle blank input
     if not text_to_analyze or not text_to_analyze.strip():
         return "Please enter a sentence to analyze."
 
